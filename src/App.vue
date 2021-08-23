@@ -1,9 +1,5 @@
 <template>
   <div>
-    <h1>黑马</h1>
-    <div>
-      <i class="iconfont icon-yuedu"></i>
-    </div>
     <router-view />
   </div>
 </template>
