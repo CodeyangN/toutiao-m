@@ -1,5 +1,5 @@
 import request from '../utils/request'
-import store from '../store'
+// import store from '../store'
 
 export const login = (data) => {
 	return request({
@@ -17,9 +17,15 @@ export const sendSms = (mobile) => {
 export const getUserInfo = () => {
 	return request({
 		url: '/v1_0/user',
+		method: 'GET'
+		// headers: {
+		// 	Authorization: `Bearer ${store.state.user.token}`
+		// }
+	})
+}
+export const getUserChannels = () => {
+	return request({
+		url: '/v1_0/channels',
 		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${store.state.user.token}`
-		}
 	})
 }
