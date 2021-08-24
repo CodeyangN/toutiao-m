@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { login, sendSms } from "../../api/user";
+import { login, sendSms } from "@/api/user";
 
 export default {
   name: "Login",

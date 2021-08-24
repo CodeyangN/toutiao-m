@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar">
+    <van-nav-bar class="page-nav-bar" fixed>
       <van-button
         class="search-btn"
         slot="title"
@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import { getUserChannels } from "../../api/user";
-import ArticleList from "../home/components/article-list.vue";
+import { getUserChannels } from "@/api/user";
+import ArticleList from "@/views/home/components/article-list.vue";
 export default {
   name: "Home",
   components: { ArticleList },
@@ -66,6 +66,7 @@ export default {
 <style lang="less" scoped>
 .home-container {
   padding-bottom: 100px;
+  padding-top: 174px;
   /deep/ .van-nav-bar__title {
     max-width: 80%;
   }
@@ -80,7 +81,15 @@ export default {
     }
   }
   /deep/ .channel-tabs {
+    .van-tabs__content {
+      min-height: 79vh;
+    }
     .van-tabs__wrap {
+      position: fixed;
+      top: 92px;
+      z-index: 1;
+      left: 0;
+      right: 0;
       height: 82px;
     }
     .van-tab {
