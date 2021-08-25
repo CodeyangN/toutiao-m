@@ -1,7 +1,7 @@
 <template>
   <div class="search-suggest">
-    <van-cell icon="search" v-for="(text, index) in suggestions" :key="index"
-      ><div slot="title" v-html="text"></div>
+    <van-cell icon="search" v-for="(text, index) in suggestions" :key="index" @click="$emit('search',text)"
+      ><div slot="title" v-html="highlight(text)"></div>
     </van-cell>
   </div>
 </template>
@@ -20,7 +20,6 @@ export default {
   data() {
     return {
       suggestions: [],
-      htmlStr: `<span style="color: red; font-weight: bold;">${val}</span>`,
     };
   },
   methods: {
@@ -31,6 +30,12 @@ export default {
       } catch (err) {
         this.$toast("获取数据失败，请稍后重试");
       }
+    },
+    //字符串高亮
+    highlight(text) {
+      const highlightStr = `<span style="color: red;">${this.searchText}</span>`;
+      const reg = new RegExp(this.searchText, "gi");
+      return text.replace(reg, highlightStr);
     },
   },
   watch: {

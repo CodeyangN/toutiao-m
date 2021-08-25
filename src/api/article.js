@@ -7,3 +7,6 @@ export const getArticles = params => {
 		params
 	})
 }
+export const getArticleDetailAPI = article_id => {
+	return request.get(`/v1_0/articles/${article_id}`)
+}

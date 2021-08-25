@@ -9,3 +9,10 @@ export const getSearchSuggest = (q) => {
 		}
 	})
 }
+export const getSearchResult = params => {
+	return request({
+		url: '/v1_0/search',
+		method: 'GET',
+		params
+	})
+}
