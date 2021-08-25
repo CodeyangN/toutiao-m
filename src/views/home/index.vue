@@ -9,6 +9,7 @@
         size="small"
         round
         icon="search"
+        to="/search"
         >搜索</van-button
       >
     </van-nav-bar>
@@ -26,38 +27,79 @@
         <!-- 文章列表 -->
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn">
+      <div
+        slot="nav-right"
+        class="hamburger-btn"
+        @click="isChennelEditShow = true"
+      >
         <i class="iconfont icon-caidan"></i>
       </div>
     </van-tabs>
     <!-- 频道列表 -->
+    <!-- 频道弹出层 -->
+    <van-popup
+      v-model="isChennelEditShow"
+      closeable
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+      ><channel-edit
+        :active="active"
+        :my-channels="channels"
+        @update-active="onUpdataActive"
+      ></channel-edit>
+    </van-popup>
+    <!-- 频道弹出层 -->
   </div>
 </template>
 
 <script>
+import ChannelEdit from "./components/channel-edit.vue";
 import { getUserChannels } from "@/api/user";
 import ArticleList from "@/views/home/components/article-list.vue";
+import { mapState } from "vuex";
+import { getItem } from "@/utils/storage";
 export default {
   name: "Home",
-  components: { ArticleList },
+  components: { ArticleList, ChannelEdit },
   data() {
     return {
       active: 0,
       channels: [],
+      isChennelEditShow: false,
     };
   },
   created() {
     this.loadChannels();
   },
+  computed: {
+    ...mapState(["user"]),
+  },
   methods: {
     async loadChannels() {
       try {
-        const { data } = await getUserChannels();
-        console.log(data);
-        this.channels = data.data.channels;
+        // const { data } = await getUserChannels();
+        // this.channels = data.data.channels;
+        let channels = [];
+        if (this.user) {
+          const { data } = await getUserChannels();
+          channels = data.data.channels;
+        } else {
+          const localChannels = getItem("TOUTIAO_CHANNELS");
+          if (localChannels) {
+            channels = localChannels;
+          } else {
+            channels = data.data.channels;
+          }
+        }
+        this.channels = channels;
       } catch (err) {
         this.$toast("获取信息失败");
       }
+    },
+    onUpdataActive(index, isChennelEditShow = true) {
+      this.active = index;
+      this.isChennelEditShow = isChennelEditShow;
     },
   },
 };
